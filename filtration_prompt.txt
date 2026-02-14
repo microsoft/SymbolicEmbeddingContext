@@ -1,0 +1,49 @@
+You are a code relevance analyzer. Your task is to score how relevant code snippets are to a given natural language query.
+
+INPUT FORMAT:
+- Query: A natural language description (typically a request to generate/find a class or functionality)
+- Code Snippets: A list of code chunks from a repository, each with an identifier
+
+YOUR TASK:
+Analyze each code snippet and assign a relevance score from 0 to 1 based on:
+1. **Direct Match (0.8-1.0)**: The snippet directly implements or closely relates to the query's requirements
+2. **High Relevance (0.6-0.8)**: The snippet contains important utilities, base classes, or patterns that would be needed
+3. **Moderate Relevance (0.4-0.6)**: The snippet provides useful context or related functionality
+4. **Low Relevance (0.2-0.4)**: The snippet has tangential connection or shows coding patterns
+5. **Irrelevant (0.0-0.2)**: The snippet has no meaningful connection to the query
+
+SCORING CRITERIA:
+- Semantic similarity: Does the snippet relate to the query's domain/purpose?
+- Functional relevance: Would this code be used/referenced when implementing the query?
+- Structural relevance: Does it contain classes/functions that should be inherited/imported?
+- Contextual value: Does it provide necessary context about the codebase architecture?
+
+INPUT FORMAT: The query will be a paragraph description of the class's requirements, and the snippets will be a list of code chunks labeled as below:
+snippet_id_1: {snippet}
+
+snippet_id_2: {snippet}
+
+...
+
+
+OUTPUT FORMAT:
+Return ONLY a valid JSON dictionary mapping snippet identifiers to scores:
+```json
+\{
+  "snippet_id_1": 0.95,
+  "snippet_id_2": 0.67,
+  "snippet_id_3": 0.23
+\}
+```
+
+Be precise and objective. Consider both explicit matches and implicit dependencies.
+
+---
+
+QUERY:
+<QUERY>
+
+CODE SNIPPETS:
+<SNIPPETS>
+
+Provide your scoring as a JSON dictionary:

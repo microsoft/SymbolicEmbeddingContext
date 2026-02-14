@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "LLM_MODEL: $LLM_MODEL"
+echo "LLM_API_KEY: $LLM_API_KEY"
+echo "LLM_BASE_URL: $LLM_BASE_URL"
+docker run -it --pull=always -e LLM_NUM_RETRIES=15 -e LLM_RETRY_MAX_WAIT=240 -e LLM_RETRY_MULTIPLIER=3.0 -e OPENAI_CACHE_PROMPT_NO_STORE=true -e LLM_CACHING=$LLM_CACHING_PROMPT -e LLM_CACHING_PROMPT=$LLM_CACHING_PROMPT -e SANDBOX_RUNTIME_CONTAINER_IMAGE=docker.all-hands.dev/all-hands-ai/runtime:0.56-nikolaik -e MAX_ITERATIONS=$MAX_ITERATIONS -e SANDBOX_USER_ID=$(id -u) -e SANDBOX_VOLUMES=$SANDBOX_VOLUMES -e LLM_MODEL=$LLM_MODEL -e LLM_API_KEY=$LLM_API_KEY -e LLM_BASE_URL=$LLM_BASE_URL -e LLM_TEMPERATURE=$LLM_TEMPERATURE -e LLM_NATIVE_TOOL_CALLING=true -e LOG_ALL_EVENTS=true -e LLM_NUM_RETRIES=6 -e LLM_RETRY_MIN_WAIT=5 -e LLM_RETRY_MAX_WAIT=90 -v /var/run/docker.sock:/var/run/docker.sock -v ~/.openhands:/.openhands --add-host host.docker.internal:host-gateway --name openhands-app-$(date +%Y%m%d%H%M%S)-java-$TASK_NUM docker.all-hands.dev/all-hands-ai/openhands:0.55 python -m openhands.core.main -t "$TASK"
